@@ -4,14 +4,14 @@ set search_path=steam;
 
 CREATE TABLE Familia
 (
-  IDFamilia SERIAL NOT NULL UNIQUE,
+  IDFamilia INT NOT NULL UNIQUE,
   NomeDaFamilia VARCHAR(100) NOT NULL,
   PRIMARY KEY (IDFamilia)
 );
 
 CREATE TABLE Usuario
 (
-  IDUsuario SERIAL NOT NULL UNIQUE,
+  IDUsuario INT NOT NULL UNIQUE,
   DataDeCriacao DATE NOT NULL,
   NomeDePerfil VARCHAR(100) NOT NULL,
   EmailDoUsuario VARCHAR(100) NOT NULL UNIQUE,
@@ -42,7 +42,7 @@ CREATE TABLE Desenvolvedor
 
 CREATE TABLE Jogo
 (
-  IDJogo SERIAL NOT NULL UNIQUE,
+  IDJogo INT NOT NULL UNIQUE,
   NomeJogo VARCHAR(100) NOT NULL,
   DataDeLancamento  DATE NOT NULL,
   Preco	INT NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE Genero
 
 CREATE TABLE Transacao
 (
-  IDTransacao SERIAL NOT NULL UNIQUE,
+  IDTransacao INT NOT NULL UNIQUE,
   IDJogo INT NOT NULL,
   IDUsuario INT NOT NULL,
   DataDaTransacao DATE NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE Transacao
 
 CREATE TABLE Avaliacao
 (
-  IDAvaliacao SERIAL NOT NULL UNIQUE,
+  IDAvaliacao INT NOT NULL UNIQUE,
   IDJogo INT NOT NULL,
   IDUsuario INT NOT NULL,
   Conteudo VARCHAR(300) NOT NULL,
