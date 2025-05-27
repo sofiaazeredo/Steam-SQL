@@ -4,36 +4,37 @@ set search_path=steam;
 
 CREATE TABLE Familia
 (
-  IDFamilia VARCHAR(8) NOT NULL,
+  IDFamilia INT NOT NULL UNIQUE,
   NomeDaFamilia VARCHAR(100) NOT NULL,
   PRIMARY KEY (IDFamilia)
 );
 
 CREATE TABLE Usuario
 (
-  IDUsuario VARCHAR(9) NOT NULL,
+  IDUsuario INT NOT NULL UNIQUE,
   DataDeCriacao DATE NOT NULL,
   NomeDePerfil VARCHAR(100) NOT NULL,
-  Email VARCHAR(100) NOT NULL,
-  NumeroDeTelefone INT,
-  SaldoNaCarteira money NOT NULL,
-  IDFamilia VARCHAR(8) NOT NULL,
+  EmailDoUsuario VARCHAR(100) NOT NULL UNIQUE,
+  NumeroDeTelefone INT UNIQUE,
+  SaldoNaCarteira INT NOT NULL,
+  IDFamilia INT,
   PRIMARY KEY (IDUsuario), 
-  FOREIGN KEY (IDFamilia) REFERENCES Familia(IDFamilia)
-
+  FOREIGN KEY (IDFamilia) REFERENCES Familia(IDFamilia) ON DELETE SET NULL
 );
 
 CREATE TABLE Distribuidor
 (
-  IDNomeDIST VARCHAR(100) NOT NULL,
+  IDNomeDIST VARCHAR(100) NOT NULL UNIQUE,
   DescricaoDIST VARCHAR(300),
+  EmailDoDIST VARCHAR(100) UNIQUE,
   LinkParaSiteDistribuidor VARCHAR(300),
   PRIMARY KEY (IDNomeDIST)
 );
 
 CREATE TABLE Desenvolvedor
 (
-  IDNomeDEV VARCHAR(100) NOT NULL,
+  IDNomeDEV VARCHAR(100) NOT NULL UNIQUE,
+  EmailDoDEV VARCHAR(100) UNIQUE,
   DescricaoDEV VARCHAR(300),
   LinkParaSiteDesenvolvedor VARCHAR(300),
   PRIMARY KEY (IDNomeDEV)
@@ -41,28 +42,30 @@ CREATE TABLE Desenvolvedor
 
 CREATE TABLE Jogo
 (
-  IDJogo VARCHAR(7) NOT NULL,
+  IDJogo INT NOT NULL UNIQUE,
   NomeJogo VARCHAR(100) NOT NULL,
   DataDeLancamento  DATE NOT NULL,
-  Preco	money NOT NULL,
+  Preco	INT NOT NULL,
   DescricaoJogo VARCHAR(300) NOT NULL,
   PRIMARY KEY (IDJogo)
 );
 
 CREATE TABLE Genero
 (
-  IDJogo VARCHAR(7) NOT NULL,
+  IDJogo INT NOT NULL,
   Genero VARCHAR(100) NOT NULL,
+  PRIMARY KEY (IDJogo, Genero),
   FOREIGN KEY (IDJogo) REFERENCES Jogo(IDJogo)
+
 );
 
 CREATE TABLE Transacao
 (
-  IDTransacao VARCHAR(7) NOT NULL,
-  IDJogo VARCHAR(7) NOT NULL,
-  IDUsuario VARCHAR(9) NOT NULL,
+  IDTransacao INT NOT NULL UNIQUE,
+  IDJogo INT NOT NULL,
+  IDUsuario INT NOT NULL,
   DataDaTransacao DATE NOT NULL,
-  ValorMovimentado money NOT NULL,
+  ValorMovimentado INT NOT NULL,
   Desconto NUMERIC(5,2) CHECK (Desconto >= 0 AND Desconto <= 100),
   PRIMARY KEY (IDTransacao),
   FOREIGN KEY (IDJogo) REFERENCES Jogo(IDJogo),
@@ -71,12 +74,61 @@ CREATE TABLE Transacao
 
 CREATE TABLE Avaliacao
 (
-  IDAvaliacao VARCHAR(8) NOT NULL,
-  IDJogo VARCHAR(7) NOT NULL,
-  IDUsuario VARCHAR(9) NOT NULL,
+  IDAvaliacao INT NOT NULL UNIQUE,
+  IDJogo INT NOT NULL,
+  IDUsuario INT NOT NULL,
   Conteudo VARCHAR(300) NOT NULL,
   ClasseAvaliativa VARCHAR(50) NOT NULL,
   PRIMARY KEY (IDAvaliacao),
   FOREIGN KEY (IDJogo) REFERENCES Jogo(IDJogo),
-  FOREIGN KEY (IDUsuario) REFERENCES Usuario(IDUsuario)
+  FOREIGN KEY (IDUsuario) REFERENCES Usuario(IDUsuario),
+  UNIQUE (IDJogo, IDUsuario)
+);
+
+CREATE TABLE USReAmigoDeUSR
+(
+  IDUsuario1 INT NOT NULL,
+  IDUsuario2 INT NOT NULL,
+  DataDeCriacao DATE NOT NULL,
+  PRIMARY KEY(IDUsuario1, IDUsuario2),
+  FOREIGN KEY (IDUsuario1) REFERENCES Usuario(IDUsuario),
+  FOREIGN KEY (IDUsuario2) REFERENCES Usuario(IDUsuario)
+);
+
+CREATE TABLE USRJogaJG
+(
+  IDUsuario INT NOT NULL,
+  IDJogo INT NOT NULL,
+  HorasJogadas INT NOT NULL,
+  DataUltimaSessao DATE NOT NULL,
+  PRIMARY KEY (IDUsuario, IDJogo),
+  FOREIGN KEY (IDUsuario) REFERENCES Usuario(IDUsuario),
+  FOREIGN KEY (IDJogo) REFERENCES Jogo(IDJogo)
+);
+
+CREATE TABLE DEVContratoDIST
+(
+  IDNomeDEV VARCHAR(100) NOT NULL,
+  IDNomeDIST VARCHAR(100) NOT NULL,
+  PRIMARY KEY (IDNomeDEV, IDNomeDIST),
+  FOREIGN KEY (IDNomeDEV) REFERENCES Desenvolvedor(IDNomeDEV),
+  FOREIGN KEY (IDNomeDIST) REFERENCES Distribuidor(IDNomeDIST)
+);
+
+CREATE TABLE DEVDesenvolveJG
+(
+  IDNomeDEV VARCHAR(100) NOT NULL,
+  IDJogo INT NOT NULL,
+  PRIMARY KEY (IDNomeDEV, IDJogo),
+  FOREIGN KEY (IDNomeDEV) REFERENCES Desenvolvedor(IDNomeDEV),
+  FOREIGN KEY (IDJogo) REFERENCES Jogo(IDJogo)
+);
+
+CREATE TABLE DISTDistribuiJG
+(
+  IDNomeDIST VARCHAR(100) NOT NULL,
+  IDJogo INT NOT NULL,
+  PRIMARY KEY (IDNomeDIST, IDJogo),
+  FOREIGN KEY (IDNomeDIST) REFERENCES Distribuidor(IDNomeDIST),
+  FOREIGN KEY (IDJogo) REFERENCES Jogo(IDJogo)
 );
