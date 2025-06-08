@@ -65,7 +65,7 @@ CREATE TABLE Transacao
   IDJogo INT NOT NULL,
   IDUsuario INT NOT NULL,
   DataDaTransacao DATE NOT NULL,
-  ValorMovimentado INT NOT NULL,
+  Preco	INT NOT NULL,
   Desconto NUMERIC(5,2) CHECK (Desconto >= 0 AND Desconto <= 100),
   PRIMARY KEY (IDTransacao),
   FOREIGN KEY (IDJogo) REFERENCES Jogo(IDJogo),
