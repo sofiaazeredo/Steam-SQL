@@ -24,9 +24,11 @@ class DBConnection:
         conn = None
         try:
             conn = self._connect()
-            conn.cursor().execute(query, params or ())
-            if fetch:
-                return conn.cursor().fetchall()
+            with conn.cursor() as cursor:
+		cursor.execute(query, params or ())
+            	
+		if fetch:
+                	return cursor.fetchall()
                 conn.commit()
         except Exception as e:
             if conn:
