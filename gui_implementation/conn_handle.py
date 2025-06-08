@@ -15,7 +15,7 @@ class DBConnection:
                 host=config.host,
                 database=config.name,
                 user=config.user,
-                password=config.pass
+                password=config.password
             )
         except Exception as e:
             raise ConnectionError(f"Falha na conxão: {e}")
