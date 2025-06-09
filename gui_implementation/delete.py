@@ -2,9 +2,9 @@ import tkinter as tk
 from tkinter import font as tkFont
 from tkinter import messagebox as msg
 
-class CRUD_delete(tk.Toplevel):
-    def __init__(self,parent):
-        super().__init__(parent)
+class CRUD_delete(tk.Tk):
+    def __init__(self):
+        super().__init__()
         bttn_font = tkFont.Font(family="Aptos",size = 18)
         title_font = tkFont.Font(family="Aptos",size=48,weight=tkFont.BOLD)
         subtitle_font = tkFont.Font(family="Aptos",size=14)
