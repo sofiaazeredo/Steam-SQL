@@ -58,22 +58,21 @@ class CRUD_Menu(tk.Tk):
     def nav_create(self):
         self.close_current_window()
         print("create")
-        # Add your create window implementation here
+
 
     def nav_read(self):
         self.close_current_window()
-        self.current_window = CRUD_read(self)  # Pass self as parent
+        self.current_window = CRUD_read(self) 
         print("read")
 
     def nav_update(self):
         self.close_current_window()
         print("up")
-        # Add your update window implementation here
+        
 
     def nav_delete(self):
         self.close_current_window()
         print("del")
-        # Add your delete window implementation here
 
 def main():
     menu = CRUD_Menu()
