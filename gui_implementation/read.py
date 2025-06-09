@@ -1,9 +1,13 @@
 import tkinter as tk
 from tkinter import font as tkFont
+from crud_utils import CRUD_utils
 
-class CRUD_read(tk.Toplevel):
-    def __init__(self,parent):
-        super().__init__(parent)
+
+class CRUD_read(tk.Tk):
+    def __init__(self,MenuConstructor):
+        super().__init__()
+        self.utils = CRUD_utils(self,MenuConstructor)
+
         bttn_font = tkFont.Font(family="Aptos",size = 18)
         title_font = tkFont.Font(family="Aptos",size=48,weight=tkFont.BOLD)
         subtitle_font = tkFont.Font(family="Aptos",size=14)
@@ -21,16 +25,7 @@ class CRUD_read(tk.Toplevel):
         self.filter_vars = []
         self.filter_widgets = []
 
-        relations = ["usuario","avaliacao", "desenvolvedor", "dist. contrata dev.", "dev. desenvolve jogo", "dist. distribui jogo",
-                      "distribuidor", "familia", "genero", "jogo", "transacao", "usr. amigo de usr.", "usr.joga. jogo"]
-        
-        realtion_key = {"dist. contrata dev.":"devcontratodist",
-                        "dev. desenvolve jogo":"devdesenvolvejg",
-                        "dist. distribui jogo":"distdistribuijg",
-                        "usr. amigo de usr.":"usreamigodeusr",
-                        "usr.joga. jogo":"usrjogajg"}
-
-        self.relation_opt = tk.StringVar(master=self,value=relations[0])
+        self.relation_opt = tk.StringVar(master=self,value=self.utils.relations[0])
 
         self.title_label = tk.Label(master=self, text="O Que Tem nesse BD?",fg="white",bg=self.bg_color,font=title_font)
         self.title_label.place(x=350,y=50)
@@ -38,10 +33,10 @@ class CRUD_read(tk.Toplevel):
         self.show_button = tk.Button(master=self, text="Aplicar Filtros e Procurar", bg="White",fg="black",font = bttn_font,padx=255,command=self.show_table)
         self.show_button.place(x=350,y=700)
         
-        for index, each_relation in enumerate(relations):
+        for index, each_relation in enumerate(self.utils.relations):
             value = each_relation
-            if(each_relation in realtion_key):
-                value = realtion_key[each_relation]
+            if(each_relation in self.utils.relation_key):
+                value = self.utils.relation_key[each_relation]
             rb = tk.Radiobutton(
                 master=self,
                 text=each_relation,
@@ -60,6 +55,8 @@ class CRUD_read(tk.Toplevel):
                 command=self.on_relation_select
             )
             rb.place(x=50, y=125+40*index)
+            
+        self.utils.place_home_bttn()
 
         self.place_relation_filters()
 
@@ -95,127 +92,9 @@ class CRUD_read(tk.Toplevel):
     def place_relation_filters(self):
         self.destroy_temp_widgets()
         rel_opt = self.relation_opt.get()
-        filter_config = {
-            "usuario": {
-                "text_filters": [
-                    {"Column": "idusuario", "Label": "ID: "},
-                    {"Column": "nomedeperfil", "Label": "Nome: "},
-                    {"Column": "emaildousuario", "Label": "Email: "},
-                    {"Column": "numerodetelefone", "Label": "Telefone: "},
-                    {"Column": "idfamilia", "Label": "ID Fam: "}
-                ],
-                "num_filters": [
-                    {"Column": "datadecriacao", "Label": "Data: "},
-                    {"Column": "saldonacarteira", "Label": "Saldo: "}
-                ]
-            },
-            "familia": {
-                "text_filters": [
-                    {"Column": "idfamilia", "Label": "ID: "},
-                    {"Column": "nomedafamilia", "Label": "Nome: "}
-                ],
-                "num_filters": []
-            },
-            "distribuidor": {
-                "text_filters": [
-                    {"Column": "idnomedist", "Label": "ID: "},
-                    {"Column": "descricaodist", "Label": "Desc: "},
-                    {"Column": "emaildodist", "Label": "Email: "},
-                    {"Column": "linkparasitedistribuidor", "Label": "Site: "}
-                ],
-                "num_filters": []
-            },
-            "desenvolvedor": {
-                "text_filters": [
-                    {"Column": "idnomedev", "Label": "ID: "},
-                    {"Column": "emaildodev", "Label": "Email: "},
-                    {"Column": "descricaodev", "Label": "Desc: "},
-                    {"Column": "linkparasitedesenvolvedor", "Label": "Site: "}
-                ],
-                "num_filters": []
-            },
-            "jogo": {
-                "text_filters": [
-                    {"Column": "idjogo", "Label": "ID: "},
-                    {"Column": "nomejogo", "Label": "Nome: "},
-                    {"Column": "descricaojogo", "Label": "Desc: "}
-                ],
-                "num_filters": [
-                    {"Column": "datadelancamento", "Label": "Data: "},
-                    {"Column": "preco", "Label": "Preço: "}
-                ]
-            },
-            "genero": {
-                "text_filters": [
-                    {"Column": "idjogo", "Label": "ID Jogo: "},
-                    {"Column": "genero", "Label": "Gênero: "}
-                ],
-                "num_filters": []
-            },
-            "transacao": {
-                "text_filters": [
-                    {"Column": "idtransacao", "Label": "ID: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "},
-                    {"Column": "idusuario", "Label": "ID Usr: "}
-                ],
-                "num_filters": [
-                    {"Column": "datadatransacao", "Label": "Data: "},
-                    {"Column": "desconto", "Label": "Desconto: "}
-                ]
-            },
-            "avaliacao": {
-                "text_filters": [
-                    {"Column": "idavaliacao", "Label": "ID: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "},
-                    {"Column": "idusuario", "Label": "ID Usr: "},
-                    {"Column": "conteudo", "Label": "Conteúdo: "},
-                    {"Column": "classeavaliativa", "Label": "Classe: "}
-                ],
-                "num_filters": []
-            },
-            "usreamigodeusr": {
-                "text_filters": [
-                    {"Column": "idusuario1", "Label": "ID Usuário 1: "},
-                    {"Column": "idusuario2", "Label": "ID Usuário 2: "}
-                ],
-                "num_filters": [
-                    {"Column": "datadecriacao", "Label": "Data: "}
-                ]
-            },
-            "usrjogajg": {
-                "text_filters": [
-                    {"Column": "idusuario", "Label": "ID Usuário: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "}
-                ],
-                "num_filters": [
-                    {"Column": "horasjogadas", "Label": "Horas: "},
-                    {"Column": "dataultimasessao", "Label": "Últ Sessão: "}
-                ]
-            },
-            "devcontratodist": {
-                "text_filters": [
-                    {"Column": "idnomedev", "Label": "ID Dev: "},
-                    {"Column": "idnomedist", "Label": "ID Dist: "}
-                ],
-                "num_filters": []
-            },
-            "devdesenvolvejg": {
-                "text_filters": [
-                    {"Column": "idnomedev", "Label": "ID Dev: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "}
-                ],
-                "num_filters": []
-            },
-            "distdistribuijg": {
-                "text_filters": [
-                    {"Column": "idnomedist", "Label": "ID Dist: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "}
-                ],
-                "num_filters": []
-            }
-        }
-        self.place_text_filters(filter_config[rel_opt]["text_filters"])
-        self.place_num_filter(filter_config[rel_opt]["num_filters"])
+
+        self.place_text_filters(self.utils.col_labl_pairs[rel_opt]["text_filters"])
+        self.place_num_filter(self.utils.col_labl_pairs[rel_opt]["num_filters"])
 
     def place_text_filters(self,text_filters:list):
         index_corection = len(self.filter_vars)
