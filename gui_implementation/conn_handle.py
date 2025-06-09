@@ -25,11 +25,13 @@ class DBConnection:
         try:
             conn = self._connect()
             with conn.cursor() as cursor:
-		cursor.execute(query, params or ())
-            	
-		if fetch:
-                	return cursor.fetchall()
+                cursor.execute(query, params or ())
+                        
+                if fetch:
+                    return cursor.fetchall()
+            
                 conn.commit()
+        
         except Exception as e:
             if conn:
                 conn.rollback()
