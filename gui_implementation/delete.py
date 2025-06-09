@@ -2,9 +2,9 @@ import tkinter as tk
 from tkinter import font as tkFont
 from tkinter import messagebox as msg
 
-class CRUD_delete(tk.Tk):
-    def __init__(self):
-        super().__init__()
+class CRUD_delete(tk.Toplevel):
+    def __init__(self,parent):
+        super().__init__(parent)
         bttn_font = tkFont.Font(family="Aptos",size = 18)
         title_font = tkFont.Font(family="Aptos",size=48,weight=tkFont.BOLD)
         subtitle_font = tkFont.Font(family="Aptos",size=14)
@@ -267,10 +267,3 @@ class CRUD_delete(tk.Tk):
             each_widget.destroy()
         self.filter_vars.clear()
         self.filter_widgets.clear()
-
-def main():
-    menu = CRUD_delete()
-    menu.mainloop()
-
-if __name__ == "__main__":
-    main()
