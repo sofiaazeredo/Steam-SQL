@@ -72,6 +72,7 @@ class CRUD_Menu(tk.Tk):
 
     def nav_delete(self):
         self.close_current_window()
+        self.current_window = CRUD_delete(self)
         print("del")
         # Add your delete window implementation here
 
