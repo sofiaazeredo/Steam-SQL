@@ -9,7 +9,7 @@ class CRUD_utils():
                         "usr. amigo de usr.":"usreamigodeusr",
                         "usr.joga. jogo":"usrjogajg"}
         
-        self.filter_config = {
+        self.col_labl_pairs = {
             "usuario": {
                 "text_filters": [
                     {"Column": "idusuario", "Label": "ID: "},

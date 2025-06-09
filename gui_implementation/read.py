@@ -91,8 +91,8 @@ class CRUD_read(tk.Tk):
         self.destroy_temp_widgets()
         rel_opt = self.relation_opt.get()
 
-        self.place_text_filters(self.utils.filter_config[rel_opt]["text_filters"])
-        self.place_num_filter(self.utils.filter_config[rel_opt]["num_filters"])
+        self.place_text_filters(self.utils.col_labl_pairs[rel_opt]["text_filters"])
+        self.place_num_filter(self.utils.col_labl_pairs[rel_opt]["num_filters"])
 
     def place_text_filters(self,text_filters:list):
         index_corection = len(self.filter_vars)

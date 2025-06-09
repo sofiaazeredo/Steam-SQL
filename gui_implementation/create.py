@@ -96,7 +96,7 @@ class CRUD_create(tk.Tk):
     def place_insert_fields(self):
         self.destroy_temp_widgets()
         rel_opt = self.relation_opt.get()
-        all_columns = self.utils.filter_config[rel_opt]["text_filters"] + self.utils.filter_config[rel_opt]["num_filters"]
+        all_columns = self.utils.col_labl_pairs[rel_opt]["text_filters"] + self.utils.col_labl_pairs[rel_opt]["num_filters"]
         self.place_inputs(all_columns)
 
     def place_inputs(self,text_insert_fields:list):
