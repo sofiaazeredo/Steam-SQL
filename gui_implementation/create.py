@@ -1,13 +1,17 @@
 import tkinter as tk
 from tkinter import font as tkFont
+from crud_utils import CRUD_utils
 
 class CRUD_create(tk.Tk):
     def __init__(self,):
         super().__init__()
+        self.utils = CRUD_utils()
+
         bttn_font = tkFont.Font(family="Aptos",size = 18)
         title_font = tkFont.Font(family="Aptos",size=48,weight=tkFont.BOLD)
         subtitle_font = tkFont.Font(family="Aptos",size=14)
         self.tag_font =  tkFont.Font(family="Aptos",size=20)
+
         self.bg_color = "#1F1F1F"
         fg_colors = {
             "active": "#E0E0E0",  # Light gray (best readability)
@@ -21,16 +25,7 @@ class CRUD_create(tk.Tk):
         self.insertion_vars = []
         self.insertion_widgets = []
 
-        relations = ["usuario","avaliacao", "desenvolvedor", "dist. contrata dev.", "dev. desenvolve jogo", "dist. distribui jogo",
-                      "distribuidor", "familia", "genero", "jogo", "transacao", "usr. amigo de usr.", "usr.joga. jogo"]
-        
-        realtion_key = {"dist. contrata dev.":"devcontratodist",
-                        "dev. desenvolve jogo":"devdesenvolvejg",
-                        "dist. distribui jogo":"distdistribuijg",
-                        "usr. amigo de usr.":"usreamigodeusr",
-                        "usr.joga. jogo":"usrjogajg"}
-
-        self.relation_opt = tk.StringVar(master=self,value=relations[0])
+        self.relation_opt = tk.StringVar(master=self,value=self.utils.relations[0])
 
         self.title_label = tk.Label(master=self, text="O que tem de Novo?",fg="white",bg=self.bg_color,font=title_font)
         self.title_label.place(x=385,y=50)
@@ -38,10 +33,12 @@ class CRUD_create(tk.Tk):
         self.show_button = tk.Button(master=self, text="Inserir Novo Registro", bg="White",fg="black",font = bttn_font,padx=255,command=self.insert_values)
         self.show_button.place(x=350,y=700)
         
-        for index, each_relation in enumerate(relations):
+        for index, each_relation in enumerate(self.utils.relations):
             value = each_relation
-            if(each_relation in realtion_key):
-                value = realtion_key[each_relation]
+
+            if(each_relation in self.utils.relation_key):
+                value = self.utils.relation_key[each_relation]
+
             rb = tk.Radiobutton(
                 master=self,
                 text=each_relation,
@@ -59,6 +56,7 @@ class CRUD_create(tk.Tk):
                 cursor="hand2",
                 command=self.on_relation_select
             )
+
             rb.place(x=50, y=125+40*index)
 
         self.place_insert_fields()
@@ -98,100 +96,8 @@ class CRUD_create(tk.Tk):
     def place_insert_fields(self):
         self.destroy_temp_widgets()
         rel_opt = self.relation_opt.get()
-        filter_config = {
-            "usuario": {
-                "text_insert_fields": [
-                    {"Column": "idusuario", "Label": "ID: "},
-                    {"Column": "nomedeperfil", "Label": "Nome: "},
-                    {"Column": "emaildousuario", "Label": "Email: "},
-                    {"Column": "numerodetelefone", "Label": "Telefone: "},
-                    {"Column": "idfamilia", "Label": "ID Fam: "},
-                    {"Column": "datadecriacao", "Label": "Data: "},
-                    {"Column": "saldonacarteira", "Label": "Saldo: "}
-                ]
-            },
-            "familia": {
-                "text_insert_fields": [
-                    {"Column": "idfamilia", "Label": "ID: "},
-                    {"Column": "nomedafamilia", "Label": "Nome: "}]
-            },
-            "distribuidor": {
-                "text_insert_fields": [
-                    {"Column": "idnomedist", "Label": "ID: "},
-                    {"Column": "descricaodist", "Label": "Desc: "},
-                    {"Column": "emaildodist", "Label": "Email: "},
-                    {"Column": "linkparasitedistribuidor", "Label": "Site: "}]
-            },
-            "desenvolvedor": {
-                "text_insert_fields": [
-                    {"Column": "idnomedev", "Label": "ID: "},
-                    {"Column": "emaildodev", "Label": "Email: "},
-                    {"Column": "descricaodev", "Label": "Desc: "},
-                    {"Column": "linkparasitedesenvolvedor", "Label": "Site: "}]
-            },
-            "jogo": {
-                "text_insert_fields": [
-                    {"Column": "idjogo", "Label": "ID: "},
-                    {"Column": "nomejogo", "Label": "Nome: "},
-                    {"Column": "descricaojogo", "Label": "Desc: "},
-                    {"Column": "datadelancamento", "Label": "Data: "},
-                    {"Column": "preco", "Label": "Preço: "}
-                ]
-            },
-            "genero": {
-                "text_insert_fields": [
-                    {"Column": "idjogo", "Label": "ID Jogo: "},
-                    {"Column": "genero", "Label": "Gênero: "}]
-            },
-            "transacao": {
-                "text_insert_fields": [
-                    {"Column": "idtransacao", "Label": "ID: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "},
-                    {"Column": "idusuario", "Label": "ID Usr: "},
-                    {"Column": "datadatransacao", "Label": "Data: "},
-                    {"Column": "desconto", "Label": "Desconto: "}
-                ]
-            },
-            "avaliacao": {
-                "text_insert_fields": [
-                    {"Column": "idavaliacao", "Label": "ID: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "},
-                    {"Column": "idusuario", "Label": "ID Usr: "},
-                    {"Column": "conteudo", "Label": "Conteúdo: "},
-                    {"Column": "classeavaliativa", "Label": "Classe: "}]
-            },
-            "usreamigodeusr": {
-                "text_insert_fields": [
-                    {"Column": "idusuario1", "Label": "ID Usuário 1: "},
-                    {"Column": "idusuario2", "Label": "ID Usuário 2: "},
-                    {"Column": "datadecriacao", "Label": "Data: "}
-                ]
-            },
-            "usrjogajg": {
-                "text_insert_fields": [
-                    {"Column": "idusuario", "Label": "ID Usuário: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "},
-                    {"Column": "horasjogadas", "Label": "Horas: "},
-                    {"Column": "dataultimasessao", "Label": "Últ Sessão: "}
-                ]
-            },
-            "devcontratodist": {
-                "text_insert_fields": [
-                    {"Column": "idnomedev", "Label": "ID Dev: "},
-                    {"Column": "idnomedist", "Label": "ID Dist: "}]
-            },
-            "devdesenvolvejg": {
-                "text_insert_fields": [
-                    {"Column": "idnomedev", "Label": "ID Dev: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "}]
-            },
-            "distdistribuijg": {
-                "text_insert_fields": [
-                    {"Column": "idnomedist", "Label": "ID Dist: "},
-                    {"Column": "idjogo", "Label": "ID Jogo: "}]
-            }
-        }
-        self.place_inputs(filter_config[rel_opt]["text_insert_fields"])
+        all_columns = self.utils.filter_config[rel_opt]["text_filters"] + self.utils.filter_config[rel_opt]["num_filters"]
+        self.place_inputs(all_columns)
 
     def place_inputs(self,text_insert_fields:list):
         index_corection = len(self.insertion_vars)
