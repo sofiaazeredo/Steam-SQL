@@ -3,6 +3,7 @@ from tkinter import font as tkFont
 from delete import CRUD_delete
 from read import CRUD_read
 from create import CRUD_create
+from update import CRUD_update
 
 class CRUD_Menu(tk.Tk):
     def __init__(self):
@@ -65,17 +66,15 @@ class CRUD_Menu(tk.Tk):
     def nav_read(self):
         self.destroy()
         CRUD_read() 
-        print("read")
 
     def nav_update(self):
-        self.close_current_window()
-        print("up")
+        self.destroy()
+        CRUD_update()
         
 
     def nav_delete(self):
         self.destroy()
         CRUD_delete()
-        print("del")
 
 def main():
     menu = CRUD_Menu()
