@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import font as tkFont
 from delete import CRUD_delete
 from read import CRUD_read
+from create import CRUD_create
 
 class CRUD_Menu(tk.Tk):
     def __init__(self):
@@ -56,7 +57,8 @@ class CRUD_Menu(tk.Tk):
             self.current_window = None
 
     def nav_create(self):
-        self.close_current_window()
+        self.destroy()
+        CRUD_create()
         print("create")
 
 
