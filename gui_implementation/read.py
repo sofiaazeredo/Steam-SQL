@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import font as tkFont
-from tkinter import messagebox as msg
-from datetime import datetime
 
 class CRUD_read(tk.Tk):
     def __init__(self):
