@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import font as tkFont
-from tkinter import ttk
-
+from tkinter import messagebox as msg
+from datetime import datetime
 
 class CRUD_read(tk.Tk):
     def __init__(self):
@@ -37,8 +37,8 @@ class CRUD_read(tk.Tk):
         self.title_label = tk.Label(master=self, text="O Que Tem nesse BD?",fg="white",bg=self.bg_color,font=title_font)
         self.title_label.place(x=350,y=50)
 
-        self.show_button = tk.Button(master=self, text="Procurar", bg="White",fg="black",font = bttn_font,padx=100,command=self.show_table)
-        self.show_button.place(x=525,y=700)
+        self.show_button = tk.Button(master=self, text="Aplicar Filtros e Procurar", bg="White",fg="black",font = bttn_font,padx=255,command=self.show_table)
+        self.show_button.place(x=350,y=700)
         
         for index, each_relation in enumerate(relations):
             value = each_relation
@@ -65,8 +65,6 @@ class CRUD_read(tk.Tk):
 
         self.place_relation_filters()
 
-        # print(self.get_width_height(self.show_button))
-
     def get_width_height(self,widget:tk.Widget):
         self.update()
         w = widget.winfo_width()
@@ -74,18 +72,27 @@ class CRUD_read(tk.Tk):
         return w,h
     
     def show_table(self):
-        for var in self.filter_vars:
-            print(f"Column: {var[1]}")
-            print(f"Value: {var[0].get("1.0", tk.END).strip()}")
-            if(var[2]):
-                print(f"Equivalence: {var[2].get()}")
-            print("---------------")
+        relation = self.relation_opt.get()
+        query = f"SELECT * FROM {relation}"
+
+        if self.filter_vars:
+            filters = []
+            for filter_var in self.filter_vars:
+                
+                field_value = filter_var[0].get("1.0", tk.END).strip()
+                column = filter_var[1]
+                equivalence = filter_var[2].get()
+
+                if field_value:
+                    filters.append(f"{column} {equivalence} {field_value}")               
+            if filters:
+                query += " WHERE " + " AND ".join(filters)
+        query += ";"
+
+        print(query)
 
     def on_relation_select(self):
         self.place_relation_filters()
-        print(self.relation_opt.get())
-
-
 
     def place_relation_filters(self):
         self.destroy_temp_widgets()
@@ -211,7 +218,7 @@ class CRUD_read(tk.Tk):
         }
         self.place_text_filters(filter_config[rel_opt]["text_filters"])
         self.place_num_filter(filter_config[rel_opt]["num_filters"])
-    
+
     def place_text_filters(self,text_filters:list):
         index_corection = len(self.filter_vars)
         for index, text_filter in enumerate(text_filters):
@@ -223,7 +230,9 @@ class CRUD_read(tk.Tk):
             filter_label = tk.Label(master=self,fg="white",bg=self.bg_color,text=text_filter["Label"],font=self.tag_font)
             filter_label.place(x=350,y=y_iter)
 
-            self.filter_vars.append((filter_input,text_filter["Column"],None))
+            equivalence_opt = tk.StringVar(master=self,value="=")
+
+            self.filter_vars.append((filter_input,text_filter["Column"],equivalence_opt))
 
             self.filter_widgets.append(filter_input)
             self.filter_widgets.append(filter_label)
@@ -236,7 +245,7 @@ class CRUD_read(tk.Tk):
             filter_label = tk.Label(master=self,fg="white",bg=self.bg_color,text=num_filter["Label"],font=self.tag_font)
             filter_label.place(x=350,y=y_iter)
 
-            equivalence_opt = tk.StringVar(master=self,value=None)
+            equivalence_opt = tk.StringVar(master=self,value="=")
             filter_config = tk.OptionMenu(self,equivalence_opt,"<",">","=")
             filter_config.place(x=500,y=y_iter+5)
 
