@@ -82,7 +82,7 @@ class CRUD_read(tk.Tk):
                 equivalence = filter_var[2].get()
 
                 if field_value:
-                    filters.append(f"{column} {equivalence} {field_value}")               
+                    filters.append(f"{column} {equivalence} '{field_value}'")               
             if filters:
                 query += " WHERE " + " AND ".join(filters)
         query += ";"
