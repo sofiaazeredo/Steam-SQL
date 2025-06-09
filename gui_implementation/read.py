@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import font as tkFont
 
-class CRUD_read(tk.Tk):
-    def __init__(self):
-        super().__init__()
+class CRUD_read(tk.Toplevel):
+    def __init__(self,parent):
+        super().__init__(parent)
         bttn_font = tkFont.Font(family="Aptos",size = 18)
         title_font = tkFont.Font(family="Aptos",size=48,weight=tkFont.BOLD)
         subtitle_font = tkFont.Font(family="Aptos",size=14)
@@ -260,10 +260,3 @@ class CRUD_read(tk.Tk):
             each_widget.destroy()
         self.filter_vars.clear()
         self.filter_widgets.clear()
-
-def main():
-    menu = CRUD_read()
-    menu.mainloop()
-
-if __name__ == "__main__":
-    main()
