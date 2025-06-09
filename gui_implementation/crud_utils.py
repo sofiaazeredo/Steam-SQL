@@ -1,5 +1,11 @@
+import tkinter as tk
+from tkinter import font as tkFont
+
 class CRUD_utils():
-    def __init__(self):
+    def __init__(self,master:tk.Tk,MenuConstructor):
+        self.master = master
+        self.MenuConstructor = MenuConstructor
+
         self.relations = ["usuario","avaliacao", "desenvolvedor", "dist. contrata dev.", "dev. desenvolve jogo", "dist. distribui jogo",
                       "distribuidor", "familia", "genero", "jogo", "transacao", "usr. amigo de usr.", "usr.joga. jogo"]
         
@@ -128,3 +134,12 @@ class CRUD_utils():
                 "num_filters": []
             }
         }
+
+    def place_home_bttn(self):
+        bttn_font = tkFont.Font(family="Aptos",size=18)
+        bttn = tk.Button(master=self.master, text="Menu", bg="White",fg="black",font = bttn_font,padx=10,command=self.nav_home)
+        bttn.place(x=1250,y=700)
+    
+    def nav_home(self):
+        self.master.destroy()
+        self.MenuConstructor()

@@ -52,29 +52,23 @@ class CRUD_Menu(tk.Tk):
                                        command=self.nav_delete)
         self.navto_delete_btt.place(x=300, y=555)
 
-    def close_current_window(self):
-        if self.current_window:
-            self.current_window.destroy()
-            self.current_window = None
-
     def nav_create(self):
         self.destroy()
-        CRUD_create()
-        print("create")
+        CRUD_create(CRUD_Menu)
 
 
     def nav_read(self):
         self.destroy()
-        CRUD_read() 
+        CRUD_read(CRUD_Menu) 
 
     def nav_update(self):
         self.destroy()
-        CRUD_update()
+        CRUD_update(CRUD_Menu)
         
 
     def nav_delete(self):
         self.destroy()
-        CRUD_delete()
+        CRUD_delete(CRUD_Menu)
 
 def main():
     menu = CRUD_Menu()

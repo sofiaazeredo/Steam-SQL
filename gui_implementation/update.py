@@ -4,9 +4,9 @@ from tkinter import messagebox as msg
 from crud_utils import CRUD_utils
 
 class CRUD_update(tk.Tk):
-    def __init__(self):
+    def __init__(self,MenuConstructor):
         super().__init__()
-        self.utils = CRUD_utils()
+        self.utils = CRUD_utils(self,MenuConstructor)
 
         bttn_font = tkFont.Font(family="Aptos",size = 18)
         title_font = tkFont.Font(family="Aptos",size=48,weight=tkFont.BOLD)
@@ -67,6 +67,8 @@ class CRUD_update(tk.Tk):
             )
             rb.place(x=50, y=145+40*index)
 
+        self.utils.place_home_bttn()
+
         self.place_all_filters()
 
     def get_width_height(self,widget:tk.Widget):
@@ -103,7 +105,6 @@ class CRUD_update(tk.Tk):
             print(query)
         else:
             msg.showerror(title="ERRO!",message="CAMPOS CRUCIAIS VAZIOS!!!!!!!")
-            print("fail")
             
 
 
@@ -180,6 +181,3 @@ class CRUD_update(tk.Tk):
         self.filter_widgets.clear()
         self.update_widgets.clear()
         self.update_vars.clear()
-
-r = CRUD_update()
-r.mainloop()

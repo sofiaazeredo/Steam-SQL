@@ -3,9 +3,9 @@ from tkinter import font as tkFont
 from crud_utils import CRUD_utils
 
 class CRUD_create(tk.Tk):
-    def __init__(self,):
+    def __init__(self,MenuConstructor):
         super().__init__()
-        self.utils = CRUD_utils()
+        self.utils = CRUD_utils(self,MenuConstructor)
 
         bttn_font = tkFont.Font(family="Aptos",size = 18)
         title_font = tkFont.Font(family="Aptos",size=48,weight=tkFont.BOLD)
@@ -59,8 +59,9 @@ class CRUD_create(tk.Tk):
 
             rb.place(x=50, y=125+40*index)
 
+        self.utils.place_home_bttn()
+
         self.place_insert_fields()
-        print(self.get_width_height(self.title_label))
 
     def get_width_height(self,widget:tk.Widget):
         self.update()

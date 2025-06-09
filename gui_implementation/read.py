@@ -4,9 +4,9 @@ from crud_utils import CRUD_utils
 
 
 class CRUD_read(tk.Tk):
-    def __init__(self,):
+    def __init__(self,MenuConstructor):
         super().__init__()
-        self.utils = CRUD_utils()
+        self.utils = CRUD_utils(self,MenuConstructor)
 
         bttn_font = tkFont.Font(family="Aptos",size = 18)
         title_font = tkFont.Font(family="Aptos",size=48,weight=tkFont.BOLD)
@@ -55,6 +55,8 @@ class CRUD_read(tk.Tk):
                 command=self.on_relation_select
             )
             rb.place(x=50, y=125+40*index)
+            
+        self.utils.place_home_bttn()
 
         self.place_relation_filters()
 
