@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import font as tkFont
 from tkinter import messagebox as msg
 from crud_utils import CRUD_utils
+from conn_handle import DBConnection
 
 # Classe principal para a interface de atualização de registros em CRUD
 class CRUD_update(tk.Tk):
@@ -23,6 +24,7 @@ class CRUD_update(tk.Tk):
         
         # Instancia a classe de utilitários CRUD
         self.utils = CRUD_utils(self, MenuConstructor)
+        self.db = DBConnection()
 
         # Definições de fontes
         bttn_font = tkFont.Font(family="Aptos", size=18)  # Fonte para botões
@@ -147,7 +149,7 @@ class CRUD_update(tk.Tk):
         if filters and updates:
             query += ", ".join(updates)
             query += " WHERE " + " AND ".join(filters) + ";"
-            print(query)  # Exibe a query no console
+            self.db.execute(query=query)
         else:
             # Exibe erro se campos obrigatórios não forem preenchidos
             msg.showerror(title="ERRO!", message="CAMPOS CRUCIAIS VAZIOS!!!!!!!")

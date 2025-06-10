@@ -31,6 +31,7 @@ class DBConnection:
                     return cursor.fetchall()
             
                 conn.commit()
+                print("Operação bem sucedida!")
         
         except Exception as e:
             if conn:
