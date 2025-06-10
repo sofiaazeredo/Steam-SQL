@@ -40,6 +40,6 @@ class DBConnection:
             if conn:
                 conn.close()
 
-
-db = DBConnection()
+if __name__ == "__main__":
+    db = DBConnection()
 

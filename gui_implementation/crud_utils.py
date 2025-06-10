@@ -2,19 +2,42 @@ import tkinter as tk
 from tkinter import font as tkFont
 
 class CRUD_utils():
-    def __init__(self,master:tk.Tk,MenuConstructor):
-        self.master = master
-        self.MenuConstructor = MenuConstructor
+    """
+    Classe utilitária para operações CRUD (Create, Read, Update, Delete) em um banco de dados.
+    Fornece métodos e estruturas de dados comuns para as operações CRUD.
+    """
+    def __init__(self, master: tk.Tk, MenuConstructor):
+        """
+        Inicializa a classe utilitária CRUD.
 
-        self.relations = ["usuario","avaliacao", "desenvolvedor", "dist. contrata dev.", "dev. desenvolve jogo", "dist. distribui jogo",
-                      "distribuidor", "familia", "genero", "jogo", "transacao", "usr. amigo de usr.", "usr.joga. jogo"]
+        Args:
+            master (tk.Tk): A janela principal do Tkinter.
+            MenuConstructor: Construtor da classe do menu principal para navegação.
+        """
+        self.master = master  # Referência à janela principal
+        self.MenuConstructor = MenuConstructor  # Construtor do menu principal
+
+        # Lista de relações (tabelas) disponíveis no banco de dados
+        self.relations = [
+            "usuario", "avaliacao", "desenvolvedor", "dist. contrata dev.", 
+            "dev. desenvolve jogo", "dist. distribui jogo", "distribuidor", 
+            "familia", "genero", "jogo", "transacao", "usr. amigo de usr.", 
+            "usr.joga. jogo"
+        ]
         
-        self.relation_key = {"dist. contrata dev.":"devcontratodist",
-                        "dev. desenvolve jogo":"devdesenvolvejg",
-                        "dist. distribui jogo":"distdistribuijg",
-                        "usr. amigo de usr.":"usreamigodeusr",
-                        "usr.joga. jogo":"usrjogajg"}
+        # Mapeamento de nomes de relações para chaves simplificadas (usadas internamente)
+        self.relation_key = {
+            "dist. contrata dev.": "devcontratodist",
+            "dev. desenvolve jogo": "devdesenvolvejg",
+            "dist. distribui jogo": "distdistribuijg",
+            "usr. amigo de usr.": "usreamigodeusr",
+            "usr.joga. jogo": "usrjogajg"
+        }
         
+        # Dicionário que define os campos de filtro para cada relação (tabela)
+        # Cada entrada contém:
+        #   - text_filters: Campos que aceitam filtros de texto (strings)
+        #   - num_filters: Campos que aceitam filtros numéricos/datas
         self.col_labl_pairs = {
             "usuario": {
                 "text_filters": [
@@ -136,10 +159,26 @@ class CRUD_utils():
         }
 
     def place_home_bttn(self):
-        bttn_font = tkFont.Font(family="Aptos",size=18)
-        bttn = tk.Button(master=self.master, text="Menu", bg="White",fg="black",font = bttn_font,padx=10,command=self.nav_home)
-        bttn.place(x=1250,y=700)
+        """
+        Cria e posiciona um botão "Menu" na janela atual.
+        Quando clicado, retorna ao menu principal.
+        """
+        bttn_font = tkFont.Font(family="Aptos", size=18)
+        bttn = tk.Button(
+            master=self.master, 
+            text="Menu", 
+            bg="White",
+            fg="black",
+            font=bttn_font,
+            padx=10,
+            command=self.nav_home
+        )
+        bttn.place(x=1250, y=700)
     
     def nav_home(self):
-        self.master.destroy()
-        self.MenuConstructor()
+        """
+        Navega de volta para o menu principal.
+        Fecha a janela atual e recria o menu principal.
+        """
+        self.master.destroy()  # Fecha a janela atual
+        self.MenuConstructor()  # Recria o menu principal
