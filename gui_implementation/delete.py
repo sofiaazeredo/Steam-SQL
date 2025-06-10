@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import font as tkFont
 from tkinter import messagebox as msg
 from crud_utils import CRUD_utils
+from conn_handle import DBConnection
 
 # Classe principal para a interface de deleção de registros em CRUD
 class CRUD_delete(tk.Tk):
@@ -20,6 +21,7 @@ class CRUD_delete(tk.Tk):
             MenuConstructor (obj): O construtor do menu que gerencia as relações disponíveis no banco de dados.
         """
         super().__init__()  # Chama o construtor da classe pai (Tkinter)
+        self.db = DBConnection()
 
         # Instancia a classe de utilitários CRUD
         self.utils = CRUD_utils(self, MenuConstructor)
@@ -128,7 +130,7 @@ class CRUD_delete(tk.Tk):
         if filters:
             query += " AND ".join(filters)  # Junta os filtros com "AND"
             query += ";"  # Finaliza a query
-            print(query)  # Exibe a query no console
+            self.db.execute(query)
             for each_var in self.filter_vars:
                 each_var[0].delete("1.0",tk.END)
         else:
