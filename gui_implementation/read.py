@@ -204,7 +204,7 @@ class CRUD_read(tk.Tk):
             filter_config = tk.OptionMenu(
                 self,
                 equivalence_opt,
-                "<=", "=>", "="
+                "<=", ">=", "="
             )
             filter_config.place(x=500, y=y_iter + 5)
 
