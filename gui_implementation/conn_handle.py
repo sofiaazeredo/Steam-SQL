@@ -1,9 +1,9 @@
 import psycopg2
 import config
+from tkinter import messagebox as msg
 
 class DBConnection:
     connection = None
-
     def __new__(classe):
         if classe.connection is None:
             classe.connection = super().__new__(classe)
@@ -34,6 +34,8 @@ class DBConnection:
         
         except Exception as e:
             if conn:
+                print(e)
+                msg.showerror(title="Erro de Comando: Input Inválido")
                 conn.rollback()
             raise RuntimeError(f"Query falhou: {e}")
         finally:

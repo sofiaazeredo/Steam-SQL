@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import font as tkFont
 from crud_utils import CRUD_utils
+from conn_handle import DBConnection
 
 class CRUD_create(tk.Tk):
     def __init__(self, MenuConstructor):
@@ -12,7 +13,8 @@ class CRUD_create(tk.Tk):
         """
         super().__init__()
         self.utils = CRUD_utils(self, MenuConstructor)  # Instância das utilidades CRUD
-
+        self.db = DBConnection()
+        
         # Configuração de fontes
         bttn_font = tkFont.Font(family="Aptos", size=18)
         title_font = tkFont.Font(family="Aptos", size=48, weight=tkFont.BOLD)
@@ -116,7 +118,7 @@ class CRUD_create(tk.Tk):
                 query += " VALUES (" + ", ".join(insert_vals) + ")"
         
         query += ";"
-        print(query)  # TODO: Substituir por execução real no banco de dados
+        self.db.execute(query=query)
 
     def on_relation_select(self):
         """Atualiza os campos de inserção quando uma nova tabela é selecionada."""
