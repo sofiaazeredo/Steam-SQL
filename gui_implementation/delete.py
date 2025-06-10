@@ -129,6 +129,8 @@ class CRUD_delete(tk.Tk):
             query += " AND ".join(filters)  # Junta os filtros com "AND"
             query += ";"  # Finaliza a query
             print(query)  # Exibe a query no console
+            for each_var in self.filter_vars:
+                each_var[0].delete("1.0",tk.END)
         else:
             # Exibe erro caso não haja filtros inseridos
             msg.showerror(title="ERRO!", message="NENHUM FILTRO INSERIDO!!!!!!!")

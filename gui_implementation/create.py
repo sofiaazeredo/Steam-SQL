@@ -119,6 +119,8 @@ class CRUD_create(tk.Tk):
         
         query += ";"
         self.db.execute(query=query)
+        for each_var in self.insertion_vars:
+            each_var[0].delete("1.0",tk.END)
 
     def on_relation_select(self):
         """Atualiza os campos de inserção quando uma nova tabela é selecionada."""

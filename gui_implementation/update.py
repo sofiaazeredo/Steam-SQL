@@ -150,6 +150,10 @@ class CRUD_update(tk.Tk):
             query += ", ".join(updates)
             query += " WHERE " + " AND ".join(filters) + ";"
             self.db.execute(query=query)
+            for each_var in self.filter_vars:
+                each_var[0].delete("1.0",tk.END)
+            for each_var in self.update_vars:
+                each_var[0].delete("1.0",tk.END)
         else:
             # Exibe erro se campos obrigatórios não forem preenchidos
             msg.showerror(title="ERRO!", message="CAMPOS CRUCIAIS VAZIOS!!!!!!!")

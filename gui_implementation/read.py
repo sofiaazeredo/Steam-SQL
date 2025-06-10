@@ -118,6 +118,8 @@ class CRUD_read(tk.Tk):
         
         query += ";"
         print(query)  # TODO: Substituir por execução real e exibição dos resultados
+        for each_var in self.filter_vars:
+            each_var[0].delete("1.0",tk.END)
 
     def on_relation_select(self):
         """Atualiza os campos de filtro quando uma nova tabela é selecionada."""

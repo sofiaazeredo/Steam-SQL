@@ -31,12 +31,12 @@ class DBConnection:
                     return cursor.fetchall()
             
                 conn.commit()
-                print("Operação bem sucedida!")
+                msg.showinfo(message="Operação bem sucedida!")
         
         except Exception as e:
             if conn:
                 print(e)
-                msg.showerror(title="Erro de Comando: Input Inválido")
+                msg.showerror(message="Erro de Comando: Input Inválido")
                 conn.rollback()
             raise RuntimeError(f"Query falhou: {e}")
         finally:
