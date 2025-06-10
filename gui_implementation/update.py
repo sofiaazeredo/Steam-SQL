@@ -123,7 +123,7 @@ class CRUD_update(tk.Tk):
         Exibe um erro caso os campos necessários não sejam preenchidos.
         """
         relation = self.relation_opt.get()  # Obtém a relação (tabela) selecionada
-        query = f"UPDATE {relation} SET "  # Começa a query de atualização
+        query = f"EXPLAIN ANALYZE UPDATE {relation} SET "  # Começa a query de atualização
 
         filters = []  # Lista de filtros
         updates = []  # Lista de atualizações

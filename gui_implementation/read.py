@@ -100,7 +100,7 @@ class CRUD_read(tk.Tk):
     def show_table(self):
         """Gera e executa a query SQL com os filtros aplicados."""
         relation = self.relation_opt.get()
-        query = f"SELECT * FROM {relation}"
+        query = f"EXPLAIN ANALYZE SELECT * FROM {relation}"
 
         if self.filter_vars:
             filters = []

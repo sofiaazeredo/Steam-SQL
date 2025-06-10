@@ -99,7 +99,7 @@ class CRUD_create(tk.Tk):
     def insert_values(self):
         """Gera e executa a query SQL para inserção dos valores."""
         relation = self.relation_opt.get()
-        query = f"INSERT INTO {relation}"
+        query = f"EXPLAIN ANALYZE INSERT INTO {relation}"
 
         if self.insertion_vars:
             insert_vals = []

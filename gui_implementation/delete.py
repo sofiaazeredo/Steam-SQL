@@ -111,7 +111,7 @@ class CRUD_delete(tk.Tk):
         """
         # Recupera a relação (tabela) selecionada
         relation = self.relation_opt.get()
-        query = f"DELETE FROM {relation} WHERE "  # Inicia a query DELETE
+        query = f"EXPLAIN ANALYZE DELETE FROM {relation} WHERE "  # Inicia a query DELETE
 
         filters = []  # Lista para armazenar os filtros
 
