@@ -1,6 +1,7 @@
 import psycopg2
 import config
 from tkinter import messagebox as msg
+import pandas as pd
 
 class DBConnection:
     connection = None
@@ -28,7 +29,10 @@ class DBConnection:
                 cursor.execute(query, params or ())
                         
                 if fetch:
-                    return cursor.fetchall()
+                    columns = [desc[0] for desc in cursor.description]
+                    rows =  cursor.fetchall()
+                    df = pd.DataFrame(rows,columns=columns)
+                    return df
             
                 conn.commit()
                 msg.showinfo(message="Operação bem sucedida!")

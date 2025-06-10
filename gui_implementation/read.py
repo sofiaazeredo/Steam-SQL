@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import font as tkFont
 from crud_utils import CRUD_utils
-
+from table_handle import PandasApp
+import pandas as pd
+from conn_handle import DBConnection
 
 class CRUD_read(tk.Tk):
     def __init__(self, MenuConstructor):
@@ -13,6 +15,7 @@ class CRUD_read(tk.Tk):
         """
         super().__init__()
         self.utils = CRUD_utils(self, MenuConstructor)
+        self.db = DBConnection()
 
         # Configuração de fontes
         bttn_font = tkFont.Font(family="Aptos", size=18)
@@ -100,7 +103,7 @@ class CRUD_read(tk.Tk):
     def show_table(self):
         """Gera e executa a query SQL com os filtros aplicados."""
         relation = self.relation_opt.get()
-        query = f"EXPLAIN ANALYZE SELECT * FROM {relation}"
+        query = f"SELECT * FROM {relation}"
 
         if self.filter_vars:
             filters = []
@@ -117,7 +120,9 @@ class CRUD_read(tk.Tk):
                 query += " WHERE " + " AND ".join(filters)
         
         query += ";"
-        print(query)  # TODO: Substituir por execução real e exibição dos resultados
+        df = self.db.execute(query,fetch=True)
+        print(df)
+        PandasApp(df)
         for each_var in self.filter_vars:
             each_var[0].delete("1.0",tk.END)
 
@@ -199,7 +204,7 @@ class CRUD_read(tk.Tk):
             filter_config = tk.OptionMenu(
                 self,
                 equivalence_opt,
-                "<", ">", "="
+                "<=", "=>", "="
             )
             filter_config.place(x=500, y=y_iter + 5)
 

@@ -182,3 +182,5 @@ class CRUD_utils():
         """
         self.master.destroy()  # Fecha a janela atual
         self.MenuConstructor()  # Recria o menu principal
+
+        
